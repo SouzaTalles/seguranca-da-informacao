@@ -38,6 +38,21 @@ public class EmailService {
         return naoLidos;
     }
 
+    public String obterConteudoEmail(Message message) throws Exception {
+        if (message.isMimeType("text/plain")) {
+            return message.getContent().toString();
+        } else if (message.isMimeType("multipart/*")) {
+            Multipart multipart = (Multipart) message.getContent();
+            for (int i = 0; i < multipart.getCount(); i++) {
+                BodyPart bodyPart = multipart.getBodyPart(i);
+                if (bodyPart.isMimeType("text/plain")) {
+                    return bodyPart.getContent().toString();
+                }
+            }
+        }
+        return "[Conteúdo em formato não suportado]";
+    }
+
     public void fecharConexao() {
         closeFolder(this.inbox);
         closeImapStore(this.store);
