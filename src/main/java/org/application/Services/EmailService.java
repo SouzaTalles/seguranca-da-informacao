@@ -9,6 +9,8 @@ public class EmailService {
 
     private final String emailUser;
     private final String emailPassword;
+    private Store store;
+    private Folder inbox;
 
 
     public EmailService(String emailUser, String emailPassword) {
@@ -17,11 +19,8 @@ public class EmailService {
     }
 
     public List<Message> ListarEmailNaoLidos(int limite) throws MessagingException {
-        Store store = null;
-        Folder inbox = null;
-
-        store = getImapStore();
-        inbox = getFolderFromStore(store, "INBOX");
+        this.store = getImapStore();
+        this.inbox = getFolderFromStore(store, "INBOX");
 
         List<Message> naoLidos = new ArrayList<>();
         Message[] messages = inbox.getMessages();
@@ -36,10 +35,12 @@ public class EmailService {
             }
         }
 
-        try {
-
-        }catch ()
         return naoLidos;
+    }
+
+    public void fecharConexao() {
+        closeFolder(this.inbox);
+        closeImapStore(this.store);
     }
 
     private Store getImapStore() throws MessagingException {
@@ -61,6 +62,26 @@ public class EmailService {
         Folder folder = store.getFolder(folderName);
         folder.open(Folder.READ_WRITE);
         return folder;
+    }
+
+    private void closeFolder(Folder folder) {
+        if (folder != null && folder.isOpen()) {
+            try {
+                folder.close(true);
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void closeImapStore(Store store) {
+        if (store != null && store.isConnected()) {
+            try {
+                store.close();
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
 
