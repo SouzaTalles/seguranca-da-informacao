@@ -16,42 +16,34 @@ public class EmailService {
         this.emailPassword = emailPassword;
     }
 
-    public List<Message> ListarEmailNaoLidos(int limite) {
+    public List<Message> ListarEmailNaoLidos(int limite) throws MessagingException {
         Store store = null;
         Folder inbox = null;
 
+        store = getImapStore();
+        inbox = getFolderFromStore(store, "INBOX");
+
         List<Message> naoLidos = new ArrayList<>();
+        Message[] messages = inbox.getMessages();
+
+        for (int i = messages.length - 1; i >= 0; i--) {
+            Message msg = messages[i];
+            if (!msg.isSet(Flags.Flag.SEEN)) {
+                naoLidos.add(msg);
+            }
+            if (naoLidos.size() == limite) {
+                break;
+            }
+        }
 
         try {
-            store = getImapStore();
-            inbox = getFolderFromStore(store, "INBOX");
 
-            Message[] messages = inbox.getMessages();
-
-            for (int i = messages.length - 1; i >= 0; i--) {
-                Message msg = messages[i];
-
-                if (!msg.isSet(Flags.Flag.SEEN)) {
-                    naoLidos.add(msg);
-                }
-
-                if (naoLidos.size() == limite) {
-                    break;
-                }
-
-            }
-
-        } catch (MessagingException e) {
-            throw new RuntimeException("Erro de infraestrutura ao tentar conectar ou ler a caixa de entrada IMAP.", e);
-        } finally {
-            closeFolder(inbox);
-            closeImapStore(store);
-        }
+        }catch ()
         return naoLidos;
     }
 
     private Store getImapStore() throws MessagingException {
-        Session session = Session.getInstance(this.getImapProperties());
+        Session session = Session.getDefaultInstance(this.getImapProperties(), null);
         Store store = session.getStore("imaps");
         store.connect("imap.gmail.com", emailUser, emailPassword);
         return store;
@@ -70,26 +62,5 @@ public class EmailService {
         folder.open(Folder.READ_WRITE);
         return folder;
     }
-
-    private void closeFolder(Folder folder) {
-        if (folder != null && folder.isOpen()) {
-            try {
-                folder.close(true);
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private void closeImapStore(Store store) {
-        if (store != null && store.isConnected()) {
-            try {
-                store.close();
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
 }
 
