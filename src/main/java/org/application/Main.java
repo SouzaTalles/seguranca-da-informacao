@@ -1,8 +1,10 @@
 package org.application;
 
+import org.application.Services.AiService;
 import org.application.Services.EmailService;
 import org.application.Services.VaultService;
 
+import javax.mail.Flags;
 import javax.mail.Message;
 import javax.mail.internet.InternetAddress;
 import java.util.List;
@@ -18,9 +20,10 @@ public class Main {
 
         String emailValido = segredos.get("email.usuario");
         String senhaValida = segredos.get("email.senha");
-        String apiKeyValue = segredos.get("openai_api_key");
+        String apiKeyValue = segredos.get("gemini.api.key");
 
         EmailService emailService = new EmailService(emailValido, senhaValida);
+        AiService aiService = new AiService(apiKeyValue);
 
         System.out.println("Buscando e-mails não lidos...");
 
@@ -40,6 +43,20 @@ public class Main {
         System.out.print("\nDigite o número do e-mail que deseja responder (ou -1 para sair): ");
         int escolha = scanner.nextInt();
         scanner.nextLine();
+
+        if (escolha >= 0 && escolha < emailsNaoLidos.size()) {
+            Message emailEscolhido = emailsNaoLidos.get(escolha);
+            String conteudo = emailService.obterConteudoEmail(emailEscolhido);
+
+            System.out.println("\nBuscando sugestão da IA com a API Key recuperada do Vault...");
+            String respostaIA = aiService.gerarRespostaAutomatica(conteudo);
+
+            System.out.println("\n================ RESPOSTA GERADA ================");
+            System.out.println(respostaIA);
+            System.out.println("=================================================");
+        } else {
+            System.out.println("Operação encerrada.");
+        }
 
         emailService.fecharConexao();
     }
