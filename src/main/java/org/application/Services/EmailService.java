@@ -1,6 +1,8 @@
 package org.application.Services;
 
 import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -11,7 +13,6 @@ public class EmailService {
     private final String emailPassword;
     private Store store;
     private Folder inbox;
-
 
     public EmailService(String emailUser, String emailPassword) {
         this.emailUser = emailUser;
@@ -37,6 +38,31 @@ public class EmailService {
 
         return naoLidos;
     }
+
+    public void enviarEmail(String para, String assunto, String corpo) throws MessagingException {
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.ssl.protocols", "TLSv1.2");
+
+        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(emailUser, emailPassword);
+            }
+        });
+
+        Message message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(emailUser));
+        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(para));
+        message.setSubject(assunto);
+        message.setText(corpo);
+
+        Transport.send(message);
+    }
+
 
     public String obterConteudoEmail(Message message) throws Exception {
         if (message.isMimeType("text/plain")) {

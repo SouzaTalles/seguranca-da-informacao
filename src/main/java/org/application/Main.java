@@ -47,6 +47,8 @@ public class Main {
         if (escolha >= 0 && escolha < emailsNaoLidos.size()) {
             Message emailEscolhido = emailsNaoLidos.get(escolha);
             String conteudo = emailService.obterConteudoEmail(emailEscolhido);
+            String remetente = InternetAddress.toString(emailEscolhido.getFrom());
+            String assunto = emailEscolhido.getSubject();
 
             System.out.println("\nBuscando sugestão da IA com a API Key recuperada do Vault...");
             String respostaIA = aiService.gerarRespostaAutomatica(conteudo);
@@ -54,6 +56,15 @@ public class Main {
             System.out.println("\n================ RESPOSTA GERADA ================");
             System.out.println(respostaIA);
             System.out.println("=================================================");
+            System.out.print("Você autoriza o envio desta resposta? (S/N): ");
+            String autorizacao = scanner.nextLine().trim().toUpperCase();
+
+            if (autorizacao.equals("S")) {
+                emailService.enviarEmail(remetente, "Re: " + assunto, respostaIA);
+                emailEscolhido.setFlag(Flags.Flag.SEEN, true); // Marca como lido na caixa
+            } else {
+                System.out.println("Envio cancelado pelo usuário.");
+            }
         } else {
             System.out.println("Operação encerrada.");
         }
