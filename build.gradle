@@ -19,6 +19,9 @@ dependencies {
     // API JavaMail para ler e enviar emails
     implementation 'com.sun.mail:javax.mail:1.6.2'
 
+
+    implementation 'com.google.genai:google-genai:1.55.0'
+
 }
 
 test {

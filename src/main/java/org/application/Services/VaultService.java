@@ -6,7 +6,6 @@ import io.github.jopenlibs.vault.VaultException;
 import io.github.jopenlibs.vault.VaultImpl;
 import io.github.jopenlibs.vault.response.LogicalResponse;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class VaultService {
