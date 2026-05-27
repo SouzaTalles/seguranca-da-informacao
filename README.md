@@ -31,13 +31,9 @@ Method: Token | Token: 3c9fd6be-7bc2-9d1f-4fb3-cd745c0fc4e8
 ---
 ## Passo 2: Obter chave de API do Gemini e senha de aplicativo do Google
 
-No navegador, acesse o [Google AI Studio](https://makersuite.google.com/) e gere uma chave de API.
-Caso não consiga gerar usando a sua conta institucional, tente gerar com uma conta pessoal.
-Guarde essa chave em algum lugar, tomando cuidado para não expor ela para ninguém além de você.
+No navegador, acesse o [Google AI Studio](https://makersuite.google.com/) e gere uma chave de API. Caso não consiga gerar usando a sua conta institucional, tente gerar com uma conta pessoal. Armazene essa chave em um **local seguro e estritamente confidencial**, garantindo que **apenas você** tenha acesso a ela.
 
-No seu celular, ou navegador, faça login na sua conta do[ Google](https://myaccount.google.com/u/2/apppasswords?)
-e crie uma senha de app.
-De novo, guarde essa chave em algum lugar, tomando cuidado para não expor ela para ninguém além de você.
+No seu celular ou navegador, faça login na sua conta do[ Google](https://myaccount.google.com/u/2/apppasswords?) e crie uma senha de aplicativo. Assim como no passo anterior, **salve essa senha em um ambiente seguro e privado**, tomando cuidado para não expô-la a terceiros.
 
 ---
 ## Passo 3: Guardar segredos no cofre (chave de API e senha de app)
