@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.application'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    // Driver oficial do HashiCorp Vault para Java
+    implementation 'io.github.jopenlibs:vault-java-driver:6.2.0'
+
+    // API JavaMail para ler e enviar emails
+    implementation 'com.sun.mail:javax.mail:1.6.2'
+
+    implementation 'com.google.genai:google-genai:1.55.0'
+
+}
+
+test {
+    useJUnitPlatform()
+}

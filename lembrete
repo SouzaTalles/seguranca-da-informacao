@@ -1,0 +1,10 @@
+
+docker exec -it vault-2.0 sh
+
+export VAULT_ADDR="http://127.0.0.1:8200"
+
+export VAULT_TOKEN="3c9fd6be-7bc2-9d1f-4fb3-cd745c0fc4e8"
+
+vault kv put secret/gerador-resposta email.usuario="talles.sc@aluno.ifsc.edu.br" email.senha="" gemini.api.key=""
+
+exit

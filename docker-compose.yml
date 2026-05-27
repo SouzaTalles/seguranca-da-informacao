@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  vault:
+    image: hashicorp/vault:1.21.4
+    container_name: vault-2.0
+    ports:
+      - "8200:8200"
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: "3c9fd6be-7bc2-9d1f-4fb3-cd745c0fc4e8"
+      VAULT_DEV_LISTEN_ADDRESS: "0.0.0.0:8200"
+    cap_add:
+      - IPC_LOCK
