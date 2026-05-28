@@ -38,7 +38,7 @@ No seu celular ou navegador, faça login na sua conta do[ Google](https://myacco
 ---
 ## Passo 3: Guardar segredos no cofre (chave de API e senha de app)
 
-Em outro terminal, acesse o container que está executando o HashiVault:
+Acesse o container que está executando o HashiVault:
 
 ```bash
 docker exec -it vault-2.0 sh
