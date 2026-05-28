@@ -1,8 +1,8 @@
 # Exemplo prático de cofre de segurança
 
----
 Nesse exemplo prático, iremos usar a API do Gemini, com o HashiVault, para interagir com uma aplicação que responde a e-mails usando IA.
 Iremos demonstrar passo a passo como usar cofres de senha, na prática, como alternativa a arquivos .env ou variáveis expostas, práticas consideradas inseguras.
+
 ---
 ## Passo 1: Subir o container do vault
 
